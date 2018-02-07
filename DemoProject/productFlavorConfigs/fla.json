@@ -1,0 +1,25 @@
+{
+ "app": {
+  "appName": "DBGeneratorDemo - fla",
+  "area": "somearea",
+  "retro": "momoto",
+  "datacache": "https://issuetracker.google.com/issues/72790664",
+  "clientVersion": "2.4.44",
+  "isStage": "false",
+  "defaultPagePosition": "0"
+ },
+ "pages": [{
+  "displayName": "Page 1",
+  "type": "3",
+  "isNearby": "true"
+ }, {
+  "displayName": "Page 2",
+  "type": "0",
+  "isNearby": "true"
+ }, {
+  "displayName": "Page 3",
+  "type": "2",
+  "isNearby": "false"
+ }
+ ]
+}

@@ -1,0 +1,63 @@
+/**
+ * Copies the json file to the assets folder.
+ * @param ProductFlavor name
+ */
+def addJsonConfigToAssets(String jsonFileName) {
+    File jsonFile = new File(getRootDir().absolutePath + File.separator + "productFlavorConfigs"
+            + File.separator + jsonFileName + ".json")
+
+    File outputFile = new File(getRootDir().absolutePath + File.separator
+            + "app" + File.separator + "src" + File.separator + jsonFileName
+            + File.separator + "assets" + File.separator + "AppConfig.json");
+    outputFile.getParentFile().mkdirs();
+    outputFile.createNewFile();
+
+    if (jsonFile.exists()) {
+        copyFile(jsonFile, outputFile);
+    } else {
+        throw Exception("ProductFlavor File Does not exist!!!\nPlease Include a {ProductFlavor}.json file under \\productFlavorConfigs");
+    }
+}
+
+def addProjectWideAssetFiles(String productFlavor) {
+    File projectWideAssetDir = new File(getRootDir().absolutePath + File.separator
+            + "projectWideAssetFiles" + File.separator)
+    File[] projectWideFiles = projectWideAssetDir.listFiles()
+
+    File outputFile;
+
+    for (int i = projectWideFiles.length - 1; i > -1; --i) {
+        outputFile = new File(getRootDir().absolutePath + File.separator + "app"
+                + File.separator + "src" + File.separator + productFlavor
+                + File.separator + "assets" + File.separator + projectWideFiles[i].getName());
+        outputFile.getParentFile().mkdirs();
+        outputFile.createNewFile();
+
+        copyFile(projectWideFiles[i], outputFile);
+    }
+}
+
+
+def copyFile(File origin, File destination) {
+    InputStream input = null;
+    OutputStream output = null;
+    try {
+        input = new FileInputStream(origin);
+        output = new FileOutputStream(destination);
+        byte[] buf = new byte[1024];
+        int bytesRead;
+        while ((bytesRead = input.read(buf)) > 0) {
+            output.write(buf, 0, bytesRead);
+        }
+    } finally {
+        input.close();
+        output.close();
+    }
+}
+
+ext {
+    //create a closure reference for the methods.
+    // This way we can reference these methods in the build script
+    addJsonConfigToAssets = this.&addJsonConfigToAssets;
+    addProjectWideAssetFiles = this.&addProjectWideAssetFiles;
+}
